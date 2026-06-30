@@ -9,7 +9,7 @@ def process(file_path):
     if text is None:
         return []
 
-    # режем на чанки
-    chunks = split_text(text)
+    # режем на чанки, передаём имя файла как источник
+    chunks = split_text(text, source=file_path)
 
     return chunks
