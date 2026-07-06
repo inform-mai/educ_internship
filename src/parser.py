@@ -1,5 +1,6 @@
 import os
 import pdfplumber
+from docx import Document
 
 
 def read_txt(file_path):
@@ -15,13 +16,11 @@ def table_to_markdown(table):
 
     lines = []
 
-    # первая строка - заголовки
     header = table[0]
     header = [cell if cell is not None else "" for cell in header]
     lines.append("| " + " | ".join(header) + " |")
     lines.append("| " + " | ".join(["---"] * len(header)) + " |")
 
-    # остальные строки - данные
     for row in table[1:]:
         row = [cell if cell is not None else "" for cell in row]
         lines.append("| " + " | ".join(row) + " |")
@@ -39,7 +38,6 @@ def read_pdf(file_path):
             if page_text is not None:
                 full_text += page_text + "\n"
 
-            # достаём таблицы отдельно и добавляем как markdown
             tables = page.extract_tables()
             for table in tables:
                 full_text += "\n" + table_to_markdown(table) + "\n"
@@ -47,9 +45,30 @@ def read_pdf(file_path):
     return full_text
 
 
+def read_docx(file_path):
+    # берём только текст, картинки не трогаем
+    doc = Document(file_path)
+    full_text = ""
+
+    for paragraph in doc.paragraphs:
+        if paragraph.text.strip():
+            full_text += paragraph.text + "\n"
+
+    # таблицы в word тоже переводим в markdown
+    for table in doc.tables:
+        rows = []
+        for row in table.rows:
+            cells = [cell.text.strip() for cell in row.cells]
+            rows.append(cells)
+
+        full_text += "\n" + table_to_markdown(rows) + "\n"
+
+    return full_text
+
+
 def parse_file(file_path):
     # кидаем файл, получаем текст
-    # работает с .txt и .pdf
+    # работает с .txt, .pdf и .docx
 
     if not os.path.exists(file_path):
         print(f"файл {file_path} не найден")
@@ -61,8 +80,11 @@ def parse_file(file_path):
     elif file_path.endswith(".pdf"):
         text = read_pdf(file_path)
 
+    elif file_path.endswith(".docx"):
+        text = read_docx(file_path)
+
     else:
-        print("нужен .txt или .pdf")
+        print("нужен .txt, .pdf или .docx")
         return None
 
     print(f"{file_path} прочитан, {len(text)} символов")
