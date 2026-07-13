@@ -35,7 +35,8 @@ chunks = save_chunks.process("file.pdf")
 ```bash
 results = await seeker.chat_completion_batch(chunk_text, concurrency=10)
 ```
-# Результат: "Белевцев А. М.:PER, ИИ:TEC"
+# Результат:
+"Белевцев А. М.:PER, ИИ:TEC"
 
 ## Сохранение в Qdrant
 Две коллекции:
