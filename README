@@ -1,4 +1,3 @@
-markdown
 # Извлечение сущностей из документов
 
 Читает файлы (txt, pdf, docx), режет текст на чанки, извлекает именованные сущности с помощью LLM и сохраняет всё в Qdrant для дальнейшего поиска.
@@ -10,7 +9,6 @@ pip install -r requirements.txt
 
 ## Использование
 
-python
 import asyncio
 from entity_extraction import entity_extraction
 
@@ -19,12 +17,10 @@ asyncio.run(entity_extraction())
 # Основные функции
 ## Парсинг и чанкинг
 
-python
 import save_chunks
 chunks = save_chunks.process("file.pdf")
 
 Формат чанка:
-python
 {
     "text": "текст",
     "index": 0,
