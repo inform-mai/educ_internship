@@ -1,0 +1,45 @@
+name: knowledge_pipeline
+
+services:
+
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: vllm_new
+    ports:
+      - "8010:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: --model Qwen/Qwen2.5-7B-Instruct
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant_new
+    ports:
+      - "6343:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  memgraph:
+    image: memgraph/memgraph:latest
+    container_name: memgraph_new
+    ports:
+      - "7697:7687"
+    volumes:
+      - memgraph_data:/var/lib/memgraph
+
+  memgraph_lab:
+    image: memgraph/lab:latest
+    container_name: memgraph_lab_new
+    ports:
+      - "3010:3000"
+    depends_on:
+      - memgraph
+
+volumes:
+  qdrant_data:
+  memgraph_data:
