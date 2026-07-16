@@ -44,13 +44,13 @@ def validate_relation(text: str, ent_a: dict, ent_b: dict) -> dict:
 
     try:
         response = client.chat.completions.create(
-            model="google/gemma-4-E4B", # Или твоя модель
+            model="Qwen/Qwen2.5-7B-Instruct",
             messages=[
                 {"role": "system", "content": "Ты строгий валидатор связей. Отвечай ТОЛЬКО валидным JSON по заданной схеме."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.0,
-            response_format=RELATION_SCHEMA # Магия: модель физически не может сломать схему
+            response_format=RELATION_SCHEMA
         )
         return json.loads(response.choices[0].message.content)
     except Exception as e:
