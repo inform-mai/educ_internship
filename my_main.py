@@ -1,4 +1,4 @@
-    # Симуляция данных, пришедших из твоего первого огромного кода (process_entities_pipeline)
+    # Симуляция данных
     raw_output_from_stage_1 = {
         "chunk_text": "vLLM работает на GPU и хранит данные в Qdrant.",
         "final_entities": "vLLM:TEC, GPU:TEC, Qdrant:ORG"
@@ -11,5 +11,4 @@
     found_triplets = process_chunk(formatted_chunk)
     
     # ШАГ 3: Вывод результата
-    print("\n--- РЕЗУЛЬТАТ (Триплеты для Memgraph) ---")
     print(json.dumps(found_triplets, indent=2, ensure_ascii=False))
