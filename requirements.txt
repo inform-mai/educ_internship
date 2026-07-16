@@ -1,1 +1,22 @@
-pdfplumber
+# Core
+pydantic>=2.0
+pydantic-settings>=2.0
+openai>=1.0
+
+# NLP
+nltk
+pymorphy3
+pymupdf
+python-docx
+thefuzz
+
+# Embeddings
+sentence-transformers
+fastembed
+
+# Databases
+qdrant-client
+neo4j
+
+# HTTP
+httpx
